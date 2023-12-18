@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link href="https://fonts.googleapis.com/css?family=Sen:400,700,800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/cb2ec89b0c.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="chat-box">
+        <div class="header">
+            <span class="name">Django Chat</span>
+        </div>
+        <div class="chat-room">
+            {% for user in users %}
+                {% comment %}{% if request.user != user %}{% endcomment %}
+                    <div class="user" id="user-{{ user.id }}" onclick="goToChat('{% url 'chat' user.id %}')">
+                        <div class="user-info" id="user-{{ user.id }}-info">
+                            <div class="user-name" id="user-{{ user.id }}-name">
+                                {{ user.username.title }}
+                                {% if user.unread_message_count %}
+                                    <span class="unread-message-count" id="user-{{ user.id }}-unread-message-count">{{ user.unread_message_count }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="user-action" id="user-{{ user.id }}-action">
+                            <button class="chat-btn" data-id="{{ user.id }}">Chat</button>
+                        </div>
+                    </div>
+                {% comment %}{% endif %}{% endcomment %}
+            {% endfor %}
+        </div>
+        <div class="type-area">
+        </div>
+    </div>
+    {{ request.user.id|json_script:"sender_id" }}
+    {{ null|json_script:"receiver_id" }}
+    <script type="module" src="{% static 'js/sock.js' %}"></script>
+    <script type="module" src="{% static 'js/home_script.js' %}"></script>
+    <script>
+        function goToChat(url){
+            window.location.href=url;
+        }
+    </script>
+</body>
+</html>

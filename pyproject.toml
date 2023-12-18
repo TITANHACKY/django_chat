@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "django-chat"
+version = "0.1.0"
+description = ""
+authors = ["Poonkawin Saravanan <poonkawin@mallow-tech.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django-allauth = "^0.59.0"
+channels-redis = "^4.1.0"
+channels = "^4.0.0"
+daphne = "^4.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
